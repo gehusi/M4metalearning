@@ -250,6 +250,7 @@ summary_performance <- function(predictions, dataset, print.summary = TRUE) {
 temp_holdout <- function(dataset) {
   lapply(dataset, function(seriesentry) {
     frq <- stats::frequency(seriesentry$x)
+    st <- stats::start(seriesentry$x)
     if (length(seriesentry$x) - seriesentry$h < max(2 * frq +1, 7)) {
       length_to_keep <- max(2 * stats::frequency(seriesentry$x) +1, 7)
       seriesentry$h <- length(seriesentry$x) - length_to_keep
@@ -259,7 +260,8 @@ temp_holdout <- function(dataset) {
                         " observations, adding a mean constant") )
 
         seriesentry$x <- stats::ts(c(seriesentry$x, rep(mean(seriesentry$x),2 - seriesentry$h )),
-                          frequency = frq)
+                          frequency = frq,
+                          start = st)
         seriesentry$h <- 2
       }
     }
