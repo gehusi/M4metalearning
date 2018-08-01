@@ -140,6 +140,8 @@ ensemble_forecast <- function(predictions, dataset, clamp_zero=TRUE) {
       weighted_ff[weighted_ff < 0] <- 0
     }
     dataset[[i]]$y_hat <- weighted_ff
+
+    dataset[[i]]$weights <- predictions[i, ]
   }
   dataset
 }
